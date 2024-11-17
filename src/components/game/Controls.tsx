@@ -1,37 +1,26 @@
 import { GameMode } from '../../types/game';
 
 interface ControlsProps {
-  onModeChange: (mode: GameMode) => void;
-  onStart: () => void;
-  onPause: () => void;
-  isPlaying: boolean;
-  currentMode: GameMode;
+  gameMode: GameMode;
+  setGameMode: (mode: GameMode) => void;
+  isPaused: boolean;
+  setIsPaused: (paused: boolean) => void;
 }
 
-const Controls = ({ onModeChange, onStart, onPause, isPlaying, currentMode }: ControlsProps) => {
+const Controls = ({ gameMode, setGameMode, isPaused, setIsPaused }: ControlsProps) => {
   return (
     <div className="controls">
-      <div className="mode-controls">
-        {(['EASY', 'NORMAL', 'HARD'] as GameMode[]).map(mode => (
-          <button
-            key={mode}
-            className={`mode-button ${currentMode === mode ? 'active' : ''}`}
-            onClick={() => onModeChange(mode)}
-          >
-            {mode === 'EASY' ? '简单' : mode === 'NORMAL' ? '普通' : '困难'}
-          </button>
-        ))}
-      </div>
-      <div className="game-controls">
-        <button 
-          onClick={isPlaying ? onPause : onStart}
-          style={{ 
-            backgroundColor: isPlaying ? 'var(--danger-color)' : 'var(--success-color)'
-          }}
-        >
-          {isPlaying ? '暂停' : '开始'}
-        </button>
-      </div>
+      <select 
+        value={gameMode} 
+        onChange={(e) => setGameMode(e.target.value as GameMode)}
+      >
+        <option value="EASY">简单</option>
+        <option value="NORMAL">普通</option>
+        <option value="HARD">困难</option>
+      </select>
+      <button onClick={() => setIsPaused(!isPaused)}>
+        {isPaused ? '继续' : '暂停'}
+      </button>
     </div>
   );
 };
