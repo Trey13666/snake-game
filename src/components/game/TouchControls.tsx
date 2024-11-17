@@ -1,5 +1,5 @@
+import { useState } from 'react';
 import { Direction } from '../../types/game';
-import { useState, useEffect } from 'react';
 
 interface TouchControlsProps {
   onDirectionChange: (direction: Direction) => void;
@@ -20,15 +20,12 @@ const TouchControls = ({ onDirectionChange }: TouchControlsProps) => {
     const deltaX = touch.clientX - startTouch.x;
     const deltaY = touch.clientY - startTouch.y;
 
-    // 需要一定的滑动距离才触发方向改变
     const minSwipeDistance = 30;
 
     if (Math.abs(deltaX) > minSwipeDistance || Math.abs(deltaY) > minSwipeDistance) {
       if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        // 水平滑动
         onDirectionChange(deltaX > 0 ? 'RIGHT' : 'LEFT');
       } else {
-        // 垂直滑动
         onDirectionChange(deltaY > 0 ? 'DOWN' : 'UP');
       }
       setStartTouch(null);
